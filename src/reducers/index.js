@@ -1,3 +1,5 @@
+import { MAIN } from '../constants'
+
 const initialState = {
   heroes: [],
   heroesLoadingStatus: 'idle',
@@ -8,27 +10,31 @@ const initialState = {
   filterType: 'all',
 };
 
+// replace switch case with new Map
+// https://www.technicalfeeder.com/2022/01/typescript-replace-switch-case-logic-with-record-object/
+
+// statuses move to json
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEROES_FETCHING':
+    case MAIN.HEROES_FETCHING:
       return {
         ...state,
         heroesLoadingStatus: 'loading',
       };
-    case 'HEROES_FETCHED':
+    case MAIN.HEROES_FETCHED:
       return {
         ...state,
         heroes: action.payload,
         heroesLoadingStatus: 'idle',
         filteredHeroes: action.payload,
       };
-    case 'HEROES_FETCHING_ERROR':
+    case MAIN.HEROES_FETCHING_ERROR:
       return {
         ...state,
         heroesLoadingStatus: 'error',
       };
 
-    case 'HEROES_DELETE':
+    case MAIN.HEROES_DELETE:
       const newHeroList = state.heroes.filter((item) => item.id !== action.payload);
       return {
         ...state,
@@ -36,7 +42,7 @@ const reducer = (state = initialState, action) => {
         filteredHeroes: newHeroList,
       };
 
-    case 'HEROES_ADD_FORM':
+    case MAIN.HEROES_ADD_FORM:
       const newHeroArr = [...state.heroes, action.payload];
       const filteredWithHero = state.filterType === 'all' ? newHeroArr : newHeroArr.filter((item) => item.element === state.filterType);
       return {
@@ -44,24 +50,24 @@ const reducer = (state = initialState, action) => {
         heroes: newHeroArr,
         filteredHeroes: filteredWithHero,
       };
-    case 'ELEMENTS_FETCHING':
+    case MAIN.ELEMENTS_FETCHING:
       return {
         ...state,
         elementsLoadingStatus: 'loading',
       };
-    case 'ELEMENTS_FETCHED':
+    case MAIN.ELEMENTS_FETCHED:
       return {
         ...state,
         elementsLoadingStatus: 'idle',
         elements: action.payload,
       };
 
-    case 'ELEMENTS_FETCHING_ERROR':
+    case MAIN.ELEMENTS_FETCHING_ERROR:
       return {
         ...state,
         elementsLoadingStatus: 'error',
       };
-    case 'HEROES_FILTER':
+    case MAIN.HEROES_FILTER:
       const filteredHeroList = action.payload === 'all' ? state.heroes : state.heroes.filter((item) => item.element === action.payload);
 
       return {

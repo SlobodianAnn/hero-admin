@@ -1,58 +1,18 @@
-export const heroesFetching = () => {
-  return {
-    type: 'HEROES_FETCHING',
-  };
-};
+import { MAIN } from '../constants'
 
-export const heroesFetched = (heroes) => {
-  return {
-    type: 'HEROES_FETCHED',
-    payload: heroes,
-  };
-};
+export const heroesFetching = () => ({ type: MAIN.HEROES_FETCHING })
+export const elementsFetching = () => ({ type: MAIN.ELEMENTS_FETCHING })
+export const heroesFetchingError = () => ({ type: MAIN.HEROES_FETCHING_ERROR })
+export const elementsFetchingError = () => ({ type: MAIN.ELEMENTS_FETCHING_ERROR })
 
-export const heroesFetchingError = () => {
-  return {
-    type: 'HEROES_FETCHING_ERROR',
-  };
-};
+const helperFunc = (typeName, payload) => ({ type: typeName, payload })
 
-export const deleteHero = (id) => {
-  return {
-    type: 'HEROES_DELETE',
-    payload: id,
-  };
-};
+export const heroesFetched =(heroes) => helperFunc(MAIN.HEROES_FETCHED, heroes)
 
-export const addHeroForm = (data) => {
-  return {
-    type: 'HEROES_ADD_FORM',
-    payload: data,
-  };
-};
+export const deleteHero = (id) => helperFunc(MAIN.HEROES_DELETE, id)
 
-export const elementsFetching = () => {
-  return {
-    type: 'ELEMENTS_FETCHING',
-  };
-};
+export const addHeroForm = (data) => helperFunc(MAIN.HEROES_ADD_FORM, data)
 
-export const elementsFetched = (elements) => {
-  return {
-    type: 'ELEMENTS_FETCHED',
-    payload: elements,
-  };
-};
+export const elementsFetched = (elements) => helperFunc(MAIN.ELEMENTS_FETCHED, elements)
 
-export const elementsFetchingError = () => {
-  return {
-    type: 'ELEMENTS_FETCHING_ERROR',
-  };
-};
-
-export const filterHeroes = (filter) => {
-  return {
-    type: 'HEROES_FILTER',
-    payload: filter,
-  };
-};
+export const filterHeroes = (filter) => helperFunc(MAIN.HEROES_FILTER, filter)

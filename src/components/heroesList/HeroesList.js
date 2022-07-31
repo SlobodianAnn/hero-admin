@@ -12,6 +12,7 @@ const HeroesList = () => {
   const { request } = useHttp();
 
   useEffect(() => {
+    // check HeroesAddForm
     dispatch(heroesFetching());
     request('http://localhost:3001/heroes')
       .then((data) => dispatch(heroesFetched(data)))
