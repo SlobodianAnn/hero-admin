@@ -22,6 +22,8 @@ const HeroesAddForm = () => {
       element: '',
     },
 
+    // Інформацію про валідацію винести в json (можливо підключити i18) 
+    // поганий тон так зберігати інфу
     validationSchema: Yup.object({
       name: Yup.string().min(2, 'Введите не менее двух символов').required('Заполните поля'),
       text: Yup.string().min(10, 'Введите не менее 10 символов').required('Заполните поле'),
@@ -42,6 +44,8 @@ const HeroesAddForm = () => {
   });
 
   useEffect(() => {
+
+    // async await ? https://devtrium.com/posts/async-functions-useeffect
     dispatch(elementsFetching());
     request('http://localhost:3001/filters')
       .then((data) => dispatch(elementsFetched(data)))
