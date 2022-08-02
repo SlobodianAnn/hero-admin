@@ -2,6 +2,8 @@
 import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 
+import { STATUS } from '../../constants';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addHeroForm } from '../../actions';
@@ -22,7 +24,7 @@ const HeroesAddForm = () => {
       element: '',
     },
 
-    // Інформацію про валідацію винести в json (можливо підключити i18) 
+    // Інформацію про валідацію винести в json (можливо підключити i18)
     // поганий тон так зберігати інфу
     validationSchema: Yup.object({
       name: Yup.string().min(2, 'Введите не менее двух символов').required('Заполните поля'),
@@ -44,16 +46,18 @@ const HeroesAddForm = () => {
   });
 
   useEffect(() => {
-
     // async await ? https://devtrium.com/posts/async-functions-useeffect
     dispatch(elementsFetching());
-    request('http://localhost:3001/filters')
-      .then((data) => dispatch(elementsFetched(data)))
-      .catch(() => dispatch(elementsFetchingError()));
+
+    const fetchData = async () => {
+      const data = await request('http://localhost:3001/filters');
+      dispatch(elementsFetched(data));
+    };
+    fetchData().catch(dispatch(elementsFetchingError()));
   }, []);
 
   const renderHeroElements = (arr) => {
-    if (arr.length !== 0 && elementsLoadingStatus === 'idle') {
+    if (arr.length !== 0 && elementsLoadingStatus === STATUS.IDLE) {
       // eslint-disable-next-line array-callback-return
       return arr.map((item) => {
         for (const key in item) {
