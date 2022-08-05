@@ -15,7 +15,7 @@ import { elementsFetched, elementsFetching, elementsFetchingError } from '../../
 const HeroesAddForm = () => {
   const dispatch = useDispatch();
   const { request } = useHttp();
-  const { elements, elementsLoadingStatus } = useSelector((state) => state);
+  const { elements, elementsLoadingStatus } = useSelector((state) => state.filters);
 
   const formik = useFormik({
     initialValues: {

@@ -2,20 +2,35 @@ import { useHttp } from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATUS } from '../../constants';
+import { createSelector } from 'reselect';
 
 import { heroesFetching, heroesFetched, heroesFetchingError, deleteHero } from '../../actions';
 import HeroesListItem from '../heroesListItem/HeroesListItem';
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-  const filteredHeroes = useSelector((state) => {
-    if (state.filterType === 'all') {
-      return state.heroes;
-    } else {
-      return state.heroes.filter((item) => item.element === state.filterType);
+  const filteredHeroesSelector = createSelector(
+    (state) => state.filters.filterType,
+    (state) => state.heroes.heroes,
+    (filter, heroes) => {
+      if (filter === 'all') {
+        console.log('render');
+        return heroes;
+      } else {
+        return heroes.filter((item) => item.element === filter);
+      }
     }
-  });
+  );
+
+  // const filteredHeroes = useSelector((state) => {
+  //   if (state.filters.filterType === 'all') {
+  //     return state.heroes.heroes;
+  //   } else {
+  //     return state.heroes.heroes.filter((item) => item.element === state.filters.filterType);
+  //   }
+  // });
   const heroesLoadingStatus = useSelector((state) => state.heroesLoadingStatus);
+  const filteredHeroes = useSelector(filteredHeroesSelector);
   const dispatch = useDispatch();
   const { request } = useHttp();
 
